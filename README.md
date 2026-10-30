@@ -78,7 +78,7 @@ $$R_i' = \sum_k c_k R_k, \qquad c_k \in \{0,\ \pm 1,\ \pm 0.5,\ \pm 2,\ \pm 3\},
 ## 🚀 Быстрый старт
 
 ```bash
-git clone <ссылка-на-ваш-репозиторий>
+git clone https://github.com/Phenomenalssss/NumericalMethodsSolvingSystemsOfLinearEquations
 cd <папка-проекта>
 
 pip install -r requirements.txt
@@ -213,5 +213,5 @@ R₃' = R₁ - R₃
 
 <div align="center">
 
-Автор: <ваше имя или ссылка на профиль>
+Автор: [@Phenomenalssss](https://github.com/Phenomenalssss)
 </div>
