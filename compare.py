@@ -1,5 +1,4 @@
 from fractions import Fraction
-
 from utils import console, rnd, fmt, sub, banner, error
 from rich.align import Align
 from rich.table import Table
@@ -12,11 +11,6 @@ CYAN = "#74c7ec"
 
 
 def exact_solution(Matrix):
-    """
-    Точное решение СЛУ в дробях (Fraction), без ошибок округления.
-    Числа читаются из их десятичной записи: 0.92 -> 23/25, а не 0.92000000000000004...
-    Возвращает список Fraction или None, если решение не единственное.
-    """
     n = len(Matrix)
     M = [[Fraction(str(v)) for v in row] for row in Matrix]
     for i in range(n):
@@ -32,13 +26,6 @@ def exact_solution(Matrix):
 
 
 def Compare(Matrix, results, exact_digits=6):
-    """
-    Таблица сравнения корней разных методов с точным решением.
-    Matrix  - исходная расширенная матрица n x (n+1)
-    results - список (название, корни, знаков_после_запятой) для каждого метода
-    Зелёным подсвечены корни, совпадающие с точными (точные округляются
-    до числа знаков самого метода по правилу 5).
-    """
     banner("СРАВНЕНИЕ МЕТОДОВ")
     exact = exact_solution(Matrix)
     if exact is None:
@@ -46,14 +33,12 @@ def Compare(Matrix, results, exact_digits=6):
         return None
     exact_f = [float(v) for v in exact]
     n = len(exact_f)
-
     table = Table(box=box.ROUNDED, border_style=BLUE, header_style=f"bold {BLUE}",
                   title=f"[bold {BLUE}]Корни СЛУ[/bold {BLUE}]", show_lines=False, pad_edge=True)
     table.add_column("", justify="center", style="bold white")
     for name, _, d in results:
         table.add_column(f"{name}\n({d} зн.)", justify="right")
     table.add_column(f"Точное\n({exact_digits} зн.)", justify="right", header_style=f"bold {CYAN}")
-
     errors = [0.0] * len(results)
     hits = [0] * len(results)
     for i in range(n):
@@ -66,7 +51,6 @@ def Compare(Matrix, results, exact_digits=6):
             cells.append(f"[bold {color}]{fmt(float(x[i]), d)}[/bold {color}]")
         table.add_row(f"x{sub(i + 1)}", *cells,
                       f"[bold {CYAN}]{fmt(float(rnd(exact_f[i], exact_digits)), exact_digits)}[/bold {CYAN}]")
-
     table.add_section()
     best = min(errors)
     table.add_row("Совпало", *[f"[bold {GREEN if h == n else 'white'}]{h} из {n}[/bold {GREEN if h == n else 'white'}]"
@@ -75,7 +59,6 @@ def Compare(Matrix, results, exact_digits=6):
                   *[f"[bold {GREEN if e == best else 'white'}]{e:.1e}[/bold {GREEN if e == best else 'white'}]"
                     for e in errors], "")
     console.print(Align.center(table))
-
     winners = [results[m][0] for m, e in enumerate(errors) if e == best]
     console.print(Align.center(
         f"[bold white]Точнее всех: [/bold white][bold {GREEN}]{', '.join(winners)}[/bold {GREEN}]"))
